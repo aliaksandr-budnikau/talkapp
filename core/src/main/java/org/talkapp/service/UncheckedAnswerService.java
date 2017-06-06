@@ -1,13 +1,10 @@
 package org.talkapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.talkapp.model.GrammarCheckResult;
 
 /**
  * @author Budnikau Aliaksandr
  */
-@Service
-public class UncheckedAnswerService {
-    @Autowired
-    private GrammarCheckService grammarCheckService;
+public interface UncheckedAnswerService {
+    GrammarCheckResult check(String text);
 }

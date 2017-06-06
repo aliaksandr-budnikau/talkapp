@@ -16,9 +16,9 @@ public class LanguageToolConfiguration {
         return new AmericanEnglish();
     }
 
-    //@RequestScope
-    @Bean(destroyMethod = "close")
-    public JLanguageTool americanEnglish(AmericanEnglish americanEnglish) {
+    @RequestScope
+    @Bean
+    public JLanguageTool languageTool(AmericanEnglish americanEnglish) {
         return new JLanguageTool(americanEnglish);
     }
 }

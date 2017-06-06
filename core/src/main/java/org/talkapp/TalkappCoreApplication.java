@@ -19,6 +19,6 @@ public class TalkappCoreApplication {
     @RequestScope
     @Bean
     public Logger logger() {
-        return LoggerFactory.getLogger("talkapp");
+        return LoggerFactory.getLogger("talk-app-core");
     }
 }

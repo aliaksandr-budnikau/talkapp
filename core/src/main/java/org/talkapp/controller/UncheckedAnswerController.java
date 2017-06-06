@@ -1,11 +1,10 @@
 package org.talkapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.talkapp.dto.UncheckedAnswer;
 import org.talkapp.model.GrammarCheckResult;
-import org.talkapp.service.GrammarCheckService;
+import org.talkapp.service.UncheckedAnswerService;
 
 /**
  * @author Budnikau Aliaksandr
@@ -14,11 +13,10 @@ import org.talkapp.service.GrammarCheckService;
 @RequestMapping("/answers")
 public class UncheckedAnswerController {
     @Autowired
-    private GrammarCheckService grammarCheckService;
+    private UncheckedAnswerService uncheckedAnswerService;
 
-    @ResponseBody
     @RequestMapping(path = "/check", method = RequestMethod.POST)
     public GrammarCheckResult checkAnswer(@RequestBody UncheckedAnswer uncheckedAnswer) {
-        return grammarCheckService.check(uncheckedAnswer.getText());
+        return uncheckedAnswerService.check(uncheckedAnswer.getText());
     }
 }

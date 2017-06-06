@@ -26,8 +26,6 @@ public class UncheckedAnswerControllerTest {
 
     @LocalServerPort
     private int port;
-    @Value("${local.management.port}")
-    private int mgt;
     @Autowired
     private TestRestTemplate testRestTemplate;
 
