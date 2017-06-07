@@ -10,12 +10,14 @@ import org.talkapp.service.UncheckedAnswerService;
  * @author Budnikau Aliaksandr
  */
 @RestController
-@RequestMapping("/answers")
+@RequestMapping(UncheckedAnswerController.CONTROLLER_PATH)
 public class UncheckedAnswerController {
+    public static final String CONTROLLER_PATH = "/answers";
+    public static final String CHECK_METHOD = "/check";
     @Autowired
     private UncheckedAnswerService uncheckedAnswerService;
 
-    @RequestMapping(path = "/check", method = RequestMethod.POST)
+    @RequestMapping(path = CHECK_METHOD, method = RequestMethod.POST)
     public GrammarCheckResult checkAnswer(@RequestBody UncheckedAnswer uncheckedAnswer) {
         return uncheckedAnswerService.check(uncheckedAnswer.getText());
     }
