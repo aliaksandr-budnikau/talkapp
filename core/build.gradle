@@ -27,7 +27,6 @@ dependencies {
     compile('com.squareup.retrofit2:retrofit:2.3.0')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-data-rest')
-    compile project(':common')
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
