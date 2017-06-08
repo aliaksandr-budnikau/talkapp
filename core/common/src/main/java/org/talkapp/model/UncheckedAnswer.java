@@ -1,4 +1,4 @@
-package org.talkapp.dto;
+package org.talkapp.model;
 
 import java.util.Objects;
 

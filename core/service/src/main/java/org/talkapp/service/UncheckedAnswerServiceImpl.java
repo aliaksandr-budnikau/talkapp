@@ -1,10 +1,8 @@
-package org.talkapp.service.impl;
+package org.talkapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.talkapp.model.GrammarCheckResult;
-import org.talkapp.service.GrammarCheckService;
-import org.talkapp.service.UncheckedAnswerService;
 
 /**
  * @author Budnikau Aliaksandr

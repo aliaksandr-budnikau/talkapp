@@ -1,14 +1,16 @@
-apply plugin: 'java'
+subprojects {
+    apply plugin: 'java'
 
-version '0.1'
+    version '0.1'
 
-apply plugin: 'idea'
-apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
 
-repositories {
-    jcenter()
-}
+    repositories {
+        jcenter()
+    }
 
-dependencies {
-
+    dependencies {
+        testCompile 'junit:junit:4.12'
+    }
 }

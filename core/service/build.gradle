@@ -21,12 +21,14 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
-    compile('org.languagetool:language-en:3.7')
-    compile('com.squareup.retrofit2:retrofit:2.3.0')
+    compile project(':core:languagetool')
+    compile project(':core:common')
+
+    runtime('org.postgresql:postgresql')
+
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-data-rest')
-    runtime('org.postgresql:postgresql')
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

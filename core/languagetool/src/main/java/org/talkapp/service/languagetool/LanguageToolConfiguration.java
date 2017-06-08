@@ -4,7 +4,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.AmericanEnglish;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 /**
  * @author Budnikau Aliaksandr
@@ -16,8 +17,8 @@ public class LanguageToolConfiguration {
         return new AmericanEnglish();
     }
 
-    @RequestScope
     @Bean
+    @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
     public JLanguageTool languageTool(AmericanEnglish americanEnglish) {
         return new JLanguageTool(americanEnglish);
     }

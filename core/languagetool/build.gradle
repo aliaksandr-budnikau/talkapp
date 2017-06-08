@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':core:common')
+    compile('org.languagetool:language-en:3.7')
+    compile('org.springframework:spring-context:4.3.8.RELEASE')
+}
