@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "talkapp-170210",
+  "private_key_id": "92f337420b0bf7f0559534a3627eb54e34a3c1ff",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDm9Y3yCSSQusQs\nHlATq2pS/5Kce3HUk8eirYKzWC2YkkVtrbBbMhUEo+fNH2uv1HXm5uzRcS10wRhU\nnrI3IhpzE+HXuImhRUyHyn2B8/d9EwCFa1W37HKFy1AtoMv/UohKvMxX397lurK1\nCb9thdZu1ZwVIMZcYf4643dBg7bwMuTptkOOtQPTNiXsh0Y17JrGzCkzTx8+Qtji\nQtz6I8+Kaa6EoIj1jG1iB9NQ6PsfP4mcGJ/8x6K87gJOgh4ErCqVMKxME3Fwr/ie\nrbygypB5RnJSU9Fyk9bD4wgLbMDbVaILHUE9etgvIdnSb2CKyERvcvlUtZtIZ81g\nOATZVhBNAgMBAAECggEADwxEuVZbKYrhqTY4ZW+vt8SrGsL4Qa93PGQttd2y6tPs\n7h549RgoQmsjeTvo2kXvgKHfIC5NlePW3/yPBASW0JSlDFcbsIRBXj+VOdhZca7B\nQ/AgX6FqPMloafCmGfaYprXyYm9VqIYniqAd9tbXh9UnHEFMa0x/MfsMFBqu2qt2\nhWZT4ZNeJ9wYrwKHptfzMKwiobL0BmBzBl+QG8LQvtNaX6BcOX4+YgJfpvDPnY+f\nMNnUndWRPk1g4QAwvHH4QsCulcpEvlj8+yoSTfBPJRtmWgUEwneKTsL9970KKP/l\ngAhbfL/6MVDGYPauwcECb6zBsaiyiK1vq95Ze9J5AQKBgQD8fS06iF9GTKAqxOIo\nv3RxEXP2K/FhBj1nuzEnizc5Q1+OJolagzBOdSmXEiEp0PW6b1GIEvV87QJUgLp+\n34eWn/ggOJqYET++5RWm8t1ZYhLG9RzcYsERWTttK58nEm3SIY4QZIZLYfwo0VoZ\nD1ct15mAag12gFRyIFgwVrRTLQKBgQDqK7wokN8rSUxyJ8/hyXfrzKWUpHfmMBQ5\n8kZwSbKkU/vJIw16WzCaLH417mpgklIoW1wrPQZcvLLFwyn1605DVmiMpbTj4ztE\nYzLLslOM29DHdP5vRvZWPs+cJj9l3O0tkDzYDOgkpSkRL02m5sWcXhphJndzPN28\nxmhxN7FloQKBgQCFS/SfzTU3YObCDZU0W/c2ZjdpREO3rFqos9u8e7PY6Ge/HTsw\nbMgI87PUTL7zW50PIwvRIek2Xc34HMnYh1wGukd9g0SieaDEwB6RN/CB6tPs86Sb\n+QrihNBpzzjDoOgXop1krB12GLHOPtApIL8utX8Vm2emIxPx+H92bZ/ftQKBgQCL\nPZA3atVYjtAm/OdOcZaeHmTCuv0UYbhVMGuT7y6LKekIk5A7FigTNKujc+3LGJZD\nqvdmOnYjBI0krMSxlsZFogauwwWJkB84reeRWar2kepV/4ofLsnhRJ38Un3WGwTo\n1+Bl817CE3cU4dTBjm0oaogzBkV2v1V2H2ARGjWgoQKBgQDYQ6xY5G5Q9dannEDv\niWVjUoaPdQ97WfghEDUSVX3jjcc+gtnuXf4oCthNS/ZhMcy22CfrhowfXLwMyRBj\nFBGKnwEucWIqBDZj88q7lKYSNMUrwf9Mk/wwiN1ZKOk1Tplm4ypyPETCz92Bzm5H\nJPjuNduYGNRj6b82Knwvci1RKA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "talkapp-276@talkapp-170210.iam.gserviceaccount.com",
+  "client_id": "117984110714544578155",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/talkapp-276%40talkapp-170210.iam.gserviceaccount.com"
+}

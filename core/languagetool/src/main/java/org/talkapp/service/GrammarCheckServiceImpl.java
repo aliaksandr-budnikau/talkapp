@@ -1,5 +1,4 @@
-package org.talkapp.service.languagetool;
-
+package org.talkapp.service;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.talkapp.model.GrammarCheckResult;
 import org.talkapp.model.GrammarError;
-import org.talkapp.service.GrammarCheckService;
 
 import java.io.IOException;
 import java.util.List;

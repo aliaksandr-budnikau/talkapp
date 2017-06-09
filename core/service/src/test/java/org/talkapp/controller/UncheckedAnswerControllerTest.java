@@ -13,7 +13,7 @@ import org.talkapp.TalkappCoreApplication;
 import org.talkapp.model.GrammarCheckResult;
 import org.talkapp.model.GrammarError;
 import org.talkapp.model.UncheckedAnswer;
-import org.talkapp.service.languagetool.LanguageToolConfiguration;
+import org.talkapp.service.LanguageToolConfiguration;
 
 import java.util.List;
 

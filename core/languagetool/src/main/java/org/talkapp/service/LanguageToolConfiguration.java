@@ -1,4 +1,4 @@
-package org.talkapp.service.languagetool;
+package org.talkapp.service;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.AmericanEnglish;
