@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
 import org.talkapp.model.UnrecognizedVoice;
 import org.talkapp.model.VoiceRecognitionResult;
-import org.talkapp.service.VoiceServiceConfiguration;
 
 import java.net.URI;
 import java.nio.file.Files;
@@ -26,7 +25,7 @@ import static org.talkapp.controller.VoiceServiceController.RECOGNIZE_METHOD;
  * @author Budnikau Aliaksandr
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {TalkappCoreApplication.class, VoiceServiceConfiguration.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {TalkappCoreApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VoiceServiceControllerTest {
     @LocalServerPort
     private int port;

@@ -13,7 +13,6 @@ import org.talkapp.TalkappCoreApplication;
 import org.talkapp.model.GrammarCheckResult;
 import org.talkapp.model.GrammarError;
 import org.talkapp.model.UncheckedAnswer;
-import org.talkapp.service.LanguageToolConfiguration;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ import static org.talkapp.controller.UncheckedAnswerController.CONTROLLER_PATH;
  * @author Budnikau Aliaksandr
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {TalkappCoreApplication.class, LanguageToolConfiguration.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {TalkappCoreApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UncheckedAnswerControllerTest {
 
     @LocalServerPort
