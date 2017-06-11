@@ -26,6 +26,7 @@ dependencies {
     compile project(':core:languagetool')
     compile project(':core:google-cloud-speech')
     compile project(':core:common')
+    compile project(':core:elasticsearch')
 
     runtime('org.postgresql:postgresql')
 

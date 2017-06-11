@@ -1,0 +1,8 @@
+.idea/
+.gradle/
+*.iml
+core/common/build/
+core/elasticsearch/build/
+core/google-cloud-speech/build/
+core/languagetool/build/
+core/service/build/

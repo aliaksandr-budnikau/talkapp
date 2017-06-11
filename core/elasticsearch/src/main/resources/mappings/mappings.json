@@ -1,0 +1,13 @@
+{
+  "dynamic_templates": [
+    {
+      "map": {
+        "path_match": "translations.*",
+        "mapping": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  ]
+}
