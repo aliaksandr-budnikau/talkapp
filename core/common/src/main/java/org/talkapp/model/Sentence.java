@@ -1,5 +1,6 @@
 package org.talkapp.model;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 public class Sentence {
     private String id;
     private String text;
-    private Map<String, String> translations;
+    private Map<String, String> translations = new HashMap<>();
 
     public String getId() {
         return id;

@@ -25,12 +25,17 @@ public class SentenceController {
     }
 
     @RequestMapping(method = RequestMethod.GET, params = REQUEST_PARAM_WORDS)
-    public List<Sentence> checkAnswer(@RequestParam(REQUEST_PARAM_WORDS) String words) {
+    public List<Sentence> findByWords(@RequestParam(REQUEST_PARAM_WORDS) String words) {
         return sentenceService.findByWords(words);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void checkAnswer(@RequestBody Sentence sentence) {
+    public void save(@RequestBody Sentence sentence) {
         sentenceService.save(sentence);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void deleteAll() {
+        sentenceService.deleteAll();
     }
 }

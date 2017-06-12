@@ -12,5 +12,7 @@ public interface SentenceService {
 
     List<Sentence> findAll();
 
+    void deleteAll();
+
     List<Sentence> findByWords(String words);
 }

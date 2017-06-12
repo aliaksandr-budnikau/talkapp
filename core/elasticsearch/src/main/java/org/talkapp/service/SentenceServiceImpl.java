@@ -1,6 +1,7 @@
 package org.talkapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
@@ -11,7 +12,6 @@ import org.talkapp.repository.SentenceRepository;
 
 import java.util.LinkedList;
 import java.util.List;
-
 
 import static org.elasticsearch.index.query.MatchQueryBuilder.Operator.AND;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -25,6 +25,8 @@ public class SentenceServiceImpl implements SentenceService {
     private SentenceRepository sentenceRepository;
     @Autowired
     private ElasticsearchOperations operations;
+    @Value("${core.srv.elasticsearch.clearing.enabled}")
+    private boolean clearingEnabled;
 
     @Override
     public void save(Sentence sentence) {
@@ -38,6 +40,15 @@ public class SentenceServiceImpl implements SentenceService {
             result.add(toSentence(mapping));
         }
         return result;
+    }
+
+    @Override
+    public void deleteAll() {
+        if (clearingEnabled) {
+            sentenceRepository.deleteAll();
+        } else {
+            throw new RuntimeException("Cleaning is disabled!");
+        }
     }
 
     @Override
