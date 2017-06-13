@@ -1,4 +1,7 @@
 subprojects {
+    ext {
+        springBootVersion = '1.5.4.RELEASE'
+    }
     apply plugin: 'java'
 
     version '0.1'
