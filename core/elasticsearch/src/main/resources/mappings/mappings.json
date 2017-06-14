@@ -9,5 +9,11 @@
         }
       }
     }
-  ]
+  ],
+  "properties": {
+    "text": {
+      "type": "string",
+      "analyzer": "en_US"
+    }
+  }
 }

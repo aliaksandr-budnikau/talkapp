@@ -1,0 +1,16 @@
+{
+  "analysis": {
+    "filter": {
+      "en_US": {
+        "type": "hunspell",
+        "language": "en_US"
+      }
+    },
+    "analyzer": {
+      "en_US": {
+        "filter": ["lowercase", "en_US"],
+        "tokenizer": "standard"
+      }
+    }
+  }
+}

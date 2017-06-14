@@ -1,7 +1,9 @@
 package org.talkapp.mapping;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.*;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Mapping;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.util.Map;
 import java.util.Objects;
@@ -11,6 +13,7 @@ import java.util.Objects;
  */
 @Document(indexName = "sentence_index", type = "sentence_type")
 @Mapping(mappingPath = "/mappings/mappings.json")
+@Setting(settingPath = "/mappings/analyzer.json")
 public class SentenceMapping {
     @Id
     private String id;
