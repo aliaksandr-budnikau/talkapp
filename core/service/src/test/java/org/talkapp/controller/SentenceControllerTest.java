@@ -31,9 +31,13 @@ import static org.talkapp.controller.SentenceController.CONTROLLER_PATH;
 public class SentenceControllerTest {
     public static final String SENTENCE_1 = "Who is duty today?";
     public static final String SENTENCE_2 = "Who is duty tomorrow?";
-    public static final String SENTENCE_RU_1 = "Кто сегодня дежурный?";
+    public static final String SENTENCE_3 = "Stay or run.";
+    public static final String SENTENCE_4 = "The grey house was stayed.";
     public static final String RUSSIAN = "russian";
+    public static final String SENTENCE_RU_1 = "Кто сегодня дежурный?";
     public static final String SENTENCE_RU_2 = "Кто завтра дежурный?";
+    public static final String SENTENCE_RU_3 = "Оставайтесь или бегите.";
+    public static final String SENTENCE_RU_4 = "Серый дом остался.";
     @LocalServerPort
     private int port;
     @Autowired
@@ -50,11 +54,24 @@ public class SentenceControllerTest {
         sentence2.setText(SENTENCE_2);
         sentence2.getTranslations().put("russian", SENTENCE_RU_2);
         this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence2, Void.class);
+
+        Sentence sentence3 = new Sentence();
+        sentence3.setText(SENTENCE_3);
+        sentence3.getTranslations().put("russian", SENTENCE_RU_3);
+        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence3, Void.class);
+
+        Sentence sentence4 = new Sentence();
+        sentence4.setText(SENTENCE_4);
+        sentence4.getTranslations().put("russian", SENTENCE_RU_4);
+        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence4, Void.class);
     }
 
     @Test
     public void testStorageOfSentences() throws Exception {
         testFindAll();
+        testFindByStay();
+        testFindByStayed();
+        testFindByStayedAndTwo();
         testFindByTodayAndDuty();
         testFindByTomorrowAndDuty();
         testFindByTomorrowAndDutyAndWho();
@@ -78,15 +95,57 @@ public class SentenceControllerTest {
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
-        then(body.size()).isEqualTo(2);
-        Collections.sort(body, (o1, o2) -> o1.get("text").equals(SENTENCE_1) ? -1 : 1);
-        then(body.get(0).get("text")).isEqualTo(SENTENCE_1);
+        then(body.size()).isEqualTo(4);
+        Collections.sort(body, (o1, o2) -> ((String) o1.get("text")).compareTo((String) o2.get("text")));
+        then(body.get(0).get("text")).isEqualTo(SENTENCE_3);
         Map<String, String> translations1 = (Map<String, String>) body.get(0).get("translations");
-        then(translations1.get(RUSSIAN)).isEqualTo(SENTENCE_RU_1);
+        then(translations1.get(RUSSIAN)).isEqualTo(SENTENCE_RU_3);
 
-        then(body.get(1).get("text")).isEqualTo(SENTENCE_2);
+        then(body.get(1).get("text")).isEqualTo(SENTENCE_4);
         Map<String, String> translations2 = (Map<String, String>) body.get(1).get("translations");
-        then(translations2.get(RUSSIAN)).isEqualTo(SENTENCE_RU_2);
+        then(translations2.get(RUSSIAN)).isEqualTo(SENTENCE_RU_4);
+
+        then(body.get(2).get("text")).isEqualTo(SENTENCE_1);
+        Map<String, String> translations3 = (Map<String, String>) body.get(2).get("translations");
+        then(translations3.get(RUSSIAN)).isEqualTo(SENTENCE_RU_1);
+
+        then(body.get(3).get("text")).isEqualTo(SENTENCE_2);
+        Map<String, String> translations4 = (Map<String, String>) body.get(3).get("translations");
+        then(translations4.get(RUSSIAN)).isEqualTo(SENTENCE_RU_2);
+    }
+
+    private void testFindByStay() {
+        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stay", Object.class);
+
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<Map> body = (List<Map>) entity.getBody();
+        then(body.size()).isEqualTo(2);
+        Collections.sort(body, (o1, o2) -> ((String) o1.get("text")).compareTo((String) o2.get("text")));
+        then(body.get(0).get("text")).isEqualTo(SENTENCE_3);
+        Map<String, String> translations1 = (Map<String, String>) body.get(0).get("translations");
+        then(translations1.get(RUSSIAN)).isEqualTo(SENTENCE_RU_3);
+
+        then(body.get(1).get("text")).isEqualTo(SENTENCE_4);
+        Map<String, String> translations2 = (Map<String, String>) body.get(1).get("translations");
+        then(translations2.get(RUSSIAN)).isEqualTo(SENTENCE_RU_4);
+    }
+
+    private void testFindByStayed() {
+        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stayed", Object.class);
+
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<Map> body = (List<Map>) entity.getBody();
+        then(body.size()).isEqualTo(2);
+        Collections.sort(body, (o1, o2) -> ((String) o1.get("text")).compareTo((String) o2.get("text")));
+        then(body.get(0).get("text")).isEqualTo(SENTENCE_3);
+        Map<String, String> translations1 = (Map<String, String>) body.get(0).get("translations");
+        then(translations1.get(RUSSIAN)).isEqualTo(SENTENCE_RU_3);
+
+        then(body.get(1).get("text")).isEqualTo(SENTENCE_4);
+        Map<String, String> translations2 = (Map<String, String>) body.get(1).get("translations");
+        then(translations2.get(RUSSIAN)).isEqualTo(SENTENCE_RU_4);
     }
 
     private void testFindByTomorrowAndDuty() {
@@ -104,6 +163,15 @@ public class SentenceControllerTest {
     private void testFindByTomorrowAndDutyAndWho() {
         ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
                 "http://localhost:" + this.port + CONTROLLER_PATH + "?words=tomorrow are duty", Object.class);
+
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<Map> body = (List<Map>) entity.getBody();
+        then(body.size()).isEqualTo(0);
+    }
+
+    private void testFindByStayedAndTwo() {
+        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stayed Two", Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
