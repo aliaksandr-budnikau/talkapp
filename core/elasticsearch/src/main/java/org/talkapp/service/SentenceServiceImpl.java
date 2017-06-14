@@ -2,9 +2,6 @@ package org.talkapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.talkapp.mapping.SentenceMapping;
 import org.talkapp.model.Sentence;
@@ -13,9 +10,6 @@ import org.talkapp.repository.SentenceRepository;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.elasticsearch.index.query.MatchQueryBuilder.Operator.AND;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-
 /**
  * @author Budnikau Aliaksandr
  */
@@ -23,8 +17,6 @@ import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 public class SentenceServiceImpl implements SentenceService {
     @Autowired
     private SentenceRepository sentenceRepository;
-    @Autowired
-    private ElasticsearchOperations operations;
     @Value("${core.srv.elasticsearch.clearing.enabled}")
     private boolean clearingEnabled;
 
@@ -53,12 +45,8 @@ public class SentenceServiceImpl implements SentenceService {
 
     @Override
     public List<Sentence> findByWords(String words) {
-        SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(matchQuery("text", words).operator(AND))
-                .build();
-        List<SentenceMapping> mappings = operations.queryForList(searchQuery, SentenceMapping.class);
         List<Sentence> result = new LinkedList<>();
-        for (SentenceMapping mapping : mappings) {
+        for (SentenceMapping mapping : sentenceRepository.findByWords(words)) {
             result.add(toSentence(mapping));
         }
         return result;
