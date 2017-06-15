@@ -1,0 +1,114 @@
+[
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "I stay at the house.",
+    "translations": {
+      "russian": "Я остаюсь дома."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "He stays with the cat.",
+    "translations": {
+      "russian": "Он остается с котом."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "The yellow house was stayed.",
+    "translations": {
+      "russian": "Желтый дом остался."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "The grey house was stayed.",
+    "translations": {
+      "russian": "Серый дом остался."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Stay or run.",
+    "translations": {
+      "russian": "Оставайтесь или бегите."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Run to the house.",
+    "translations": {
+      "russian": "Бегите к дому."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "The cat runs.",
+    "translations": {
+      "russian": "Кошка бежит."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "The runner is yellow.",
+    "translations": {
+      "russian": "Бегун желтый."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "The runner is grey.",
+    "translations": {
+      "russian": "Бегун серый."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "I run to the grey house.",
+    "translations": {
+      "russian": "Я бегу в серый дом."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Grey cats run.",
+    "translations": {
+      "russian": "Серые кошки бегут."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Grey or yellow?",
+    "translations": {
+      "russian": "Серый или желтый?"
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "There are no yellow cats.",
+    "translations": {
+      "russian": "Желтых кошек нет."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Is it yellow house?",
+    "translations": {
+      "russian": "Это желтый дом?"
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Who is duty today?",
+    "translations": {
+      "russian": "Кто сегодня дежурный?"
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Who is duty tomorrow?",
+    "translations": {
+      "russian": "Кто завтра дежурный?"
+    }
+  }
+]

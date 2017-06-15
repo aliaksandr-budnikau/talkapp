@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 import java.net.InetAddress;
 
@@ -34,5 +37,14 @@ public class ElasticsearchConfiguration {
         TransportClient client = TransportClient.builder().settings(settings).build();
         client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
         return client;
+    }
+
+    @Bean
+    public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
+        Resource sourceData = new ClassPathResource("data.json");
+
+        Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
+        factory.setResources(new Resource[]{sourceData});
+        return factory;
     }
 }
