@@ -1,0 +1,30 @@
+[
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Who is duty today?",
+    "translations": {
+      "russian": "Кто сегодня дежурный?"
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Who is duty tomorrow?",
+    "translations": {
+      "russian": "Кто завтра дежурный?"
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "Stay or run.",
+    "translations": {
+      "russian": "Оставайтесь или бегите."
+    }
+  },
+  {
+    "_class": "org.talkapp.mapping.SentenceMapping",
+    "text": "The grey house was stayed.",
+    "translations": {
+      "russian": "Серый дом остался."
+    }
+  }
+]

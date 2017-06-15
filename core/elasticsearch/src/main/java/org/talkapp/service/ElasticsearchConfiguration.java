@@ -14,6 +14,8 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
 
 import java.net.InetAddress;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Budnikau Aliaksandr
@@ -28,6 +30,8 @@ public class ElasticsearchConfiguration {
     private String host;
     @Value("${core.srv.elasticsearch.port}")
     private int port;
+    @Value("${core.srv.elasticsearch.data.files}")
+    private String file;
 
     @Bean(destroyMethod = "close")
     public Client client() throws Exception {
@@ -41,10 +45,12 @@ public class ElasticsearchConfiguration {
 
     @Bean
     public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
-        Resource sourceData = new ClassPathResource("data.json");
-
+        List<Resource> resources = new LinkedList<>();
+        if (!"".equals(file)) {
+            resources.add(new ClassPathResource(file));
+        }
         Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
-        factory.setResources(new Resource[]{sourceData});
+        factory.setResources(resources.toArray(new Resource[]{}));
         return factory;
     }
 }

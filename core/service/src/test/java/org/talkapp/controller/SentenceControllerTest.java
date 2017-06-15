@@ -1,7 +1,6 @@
 package org.talkapp.controller;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,44 +26,31 @@ import static org.talkapp.controller.SentenceController.CONTROLLER_PATH;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TalkappCoreApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:test.properties")
+@TestPropertySource(properties =
+        {
+                "core.srv.elasticsearch.data.files=test-data.json",
+                "core.srv.elasticsearch.clusterName=talkapp-test-cluster",
+                "core.srv.elasticsearch.host=localhost",
+                "core.srv.elasticsearch.port=9300",
+                "core.srv.elasticsearch.clearing.enabled=true"
+        }
+)
 public class SentenceControllerTest {
     public static final String SENTENCE_1 = "Who is duty today?";
     public static final String SENTENCE_2 = "Who is duty tomorrow?";
     public static final String SENTENCE_3 = "Stay or run.";
     public static final String SENTENCE_4 = "The grey house was stayed.";
+    public static final String SENTENCE_5 = "Tra ta ta.";
     public static final String RUSSIAN = "russian";
     public static final String SENTENCE_RU_1 = "Кто сегодня дежурный?";
     public static final String SENTENCE_RU_2 = "Кто завтра дежурный?";
     public static final String SENTENCE_RU_3 = "Оставайтесь или бегите.";
     public static final String SENTENCE_RU_4 = "Серый дом остался.";
+    public static final String SENTENCE_RU_5 = "Тра та та.";
     @LocalServerPort
     private int port;
     @Autowired
     private TestRestTemplate testRestTemplate;
-
-    @Before
-    public void init() {
-        Sentence sentence1 = new Sentence();
-        sentence1.setText(SENTENCE_1);
-        sentence1.getTranslations().put(RUSSIAN, SENTENCE_RU_1);
-        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence1, Void.class);
-
-        Sentence sentence2 = new Sentence();
-        sentence2.setText(SENTENCE_2);
-        sentence2.getTranslations().put("russian", SENTENCE_RU_2);
-        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence2, Void.class);
-
-        Sentence sentence3 = new Sentence();
-        sentence3.setText(SENTENCE_3);
-        sentence3.getTranslations().put("russian", SENTENCE_RU_3);
-        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence3, Void.class);
-
-        Sentence sentence4 = new Sentence();
-        sentence4.setText(SENTENCE_4);
-        sentence4.getTranslations().put("russian", SENTENCE_RU_4);
-        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence4, Void.class);
-    }
 
     @Test
     public void testStorageOfSentences() throws Exception {
@@ -75,18 +61,41 @@ public class SentenceControllerTest {
         testFindByTodayAndDuty();
         testFindByTomorrowAndDuty();
         testFindByTomorrowAndDutyAndWho();
-        testSaveAndDelete();
+        testSave();
+        testDelete();
     }
 
-    private void testSaveAndDelete() {
-        destroy();
-        init();
-        testFindAll();
+    private void testDelete() {
+        this.testRestTemplate.delete("http://localhost:" + this.port + CONTROLLER_PATH);
+
+        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH, Object.class);
+
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<Map> body = (List<Map>) entity.getBody();
+        then(body.size()).isEqualTo(0);
     }
 
     @After
     public void destroy() {
         this.testRestTemplate.delete("http://localhost:" + this.port + CONTROLLER_PATH);
+    }
+
+    private void testSave() {
+        Sentence sentence = new Sentence();
+        sentence.setText(SENTENCE_5);
+        sentence.getTranslations().put(RUSSIAN, SENTENCE_RU_5);
+        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence, Void.class);
+
+        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=ta tra", Object.class);
+
+        then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<Map> body = (List<Map>) entity.getBody();
+        then(body.size()).isEqualTo(1);
+        then(body.get(0).get("text")).isEqualTo(SENTENCE_5);
+        Map<String, String> translations = (Map<String, String>) body.get(0).get("translations");
+        then(translations.get(RUSSIAN)).isEqualTo(SENTENCE_RU_5);
     }
 
     private void testFindAll() {

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
 import org.talkapp.model.GrammarCheckResult;
@@ -25,6 +26,14 @@ import static org.talkapp.controller.UncheckedAnswerController.CONTROLLER_PATH;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TalkappCoreApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties =
+        {
+                "core.srv.elasticsearch.data.files=",
+                "core.srv.elasticsearch.clusterName=talkapp-test-cluster",
+                "core.srv.elasticsearch.host=localhost",
+                "core.srv.elasticsearch.port=9300",
+        }
+)
 public class UncheckedAnswerControllerTest {
 
     @LocalServerPort
