@@ -39,7 +39,7 @@ public class SentenceControllerTest {
     public static final String SENTENCE_1 = "Who is duty today?";
     public static final String SENTENCE_2 = "Who is duty tomorrow?";
     public static final String SENTENCE_3 = "Stay or run.";
-    public static final String SENTENCE_4 = "The grey house was stayed.";
+    public static final String SENTENCE_4 = "The gray house was stayed.";
     public static final String SENTENCE_5 = "Tra ta ta.";
     public static final String RUSSIAN = "russian";
     public static final String SENTENCE_RU_1 = "Кто сегодня дежурный?";

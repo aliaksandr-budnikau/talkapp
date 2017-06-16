@@ -1,0 +1,46 @@
+package org.talkapp.repository.impl;
+
+import org.springframework.stereotype.Component;
+import org.talkapp.mapping.WordSetMapping;
+import org.talkapp.repository.WordSetRepository;
+
+import javax.annotation.PostConstruct;
+import java.util.*;
+
+/**
+ * @author Budnikau Aliaksandr
+ */
+@Component
+public class WordSetRepositoryImpl implements WordSetRepository {
+    private Map<String, WordSetMapping> store = new HashMap<>();
+
+    @PostConstruct
+    public void init() {
+        WordSetMapping mapping = new WordSetMapping();
+        mapping.setTrainingExperience(0);
+        mapping.setWords(Arrays.asList("House", "Cat", "Yellow", "Gray", "Run", "Stay"));
+        mapping.setId("qwe0");
+        store.put(mapping.getId(), mapping);
+
+        mapping = new WordSetMapping();
+        mapping.setTrainingExperience(1);
+        mapping.setWords(Arrays.asList("Wall", "Dog", "Green", "Smart", "Jump", "Pick"));
+        mapping.setId("qwe1");
+        store.put(mapping.getId(), mapping);
+    }
+
+    @Override
+    public void save(WordSetMapping mapping) {
+        store.put(mapping.getId(), mapping);
+    }
+
+    @Override
+    public List<WordSetMapping> findAll() {
+        return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public WordSetMapping findById(String id) {
+        return store.get(id);
+    }
+}

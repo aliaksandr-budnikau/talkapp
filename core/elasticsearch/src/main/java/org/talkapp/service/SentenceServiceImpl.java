@@ -29,7 +29,7 @@ public class SentenceServiceImpl implements SentenceService {
     public List<Sentence> findAll() {
         List<Sentence> result = new LinkedList<>();
         for (SentenceMapping mapping : sentenceRepository.findAll()) {
-            result.add(toSentence(mapping));
+            result.add(toDto(mapping));
         }
         return result;
     }
@@ -47,7 +47,7 @@ public class SentenceServiceImpl implements SentenceService {
     public List<Sentence> findByWords(String words) {
         List<Sentence> result = new LinkedList<>();
         for (SentenceMapping mapping : sentenceRepository.findByWords(words)) {
-            result.add(toSentence(mapping));
+            result.add(toDto(mapping));
         }
         return result;
     }
@@ -60,7 +60,7 @@ public class SentenceServiceImpl implements SentenceService {
         return mapping;
     }
 
-    private Sentence toSentence(SentenceMapping mapping) {
+    private Sentence toDto(SentenceMapping mapping) {
         Sentence sentence = new Sentence();
         sentence.setId(mapping.getId());
         sentence.setText(mapping.getText());
