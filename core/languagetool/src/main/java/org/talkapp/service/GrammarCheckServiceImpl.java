@@ -5,7 +5,7 @@ import org.languagetool.rules.RuleMatch;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.talkapp.model.GrammarCheckResult;
+import org.talkapp.model.AnswerCheckingResult;
 import org.talkapp.model.GrammarError;
 
 import java.io.IOException;
@@ -22,11 +22,11 @@ public class GrammarCheckServiceImpl implements GrammarCheckService {
     private Logger logger;
 
     @Override
-    public GrammarCheckResult check(String text) {
+    public AnswerCheckingResult check(String text) {
         logger.debug("Checking : " + text);
         try {
             List<RuleMatch> ruleMatches = languageTool.check(text);
-            GrammarCheckResult result = new GrammarCheckResult();
+            AnswerCheckingResult result = new AnswerCheckingResult();
             for (RuleMatch ruleMatch : ruleMatches) {
                 GrammarError error = new GrammarError();
                 result.getErrors().add(error);

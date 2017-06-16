@@ -12,20 +12,24 @@ import java.util.*;
  */
 @Component
 public class WordSetRepositoryImpl implements WordSetRepository {
+    public static final String QWE_0 = "qwe0";
+    public static final String QWE_1 = "qwe1";
     private Map<String, WordSetMapping> store = new HashMap<>();
 
     @PostConstruct
     public void init() {
         WordSetMapping mapping = new WordSetMapping();
         mapping.setTrainingExperience(0);
+        mapping.setMaxTrainingExperience(4);
         mapping.setWords(Arrays.asList("House", "Cat", "Yellow", "Gray", "Run", "Stay"));
-        mapping.setId("qwe0");
+        mapping.setId(QWE_0);
         store.put(mapping.getId(), mapping);
 
         mapping = new WordSetMapping();
         mapping.setTrainingExperience(1);
+        mapping.setMaxTrainingExperience(4);
         mapping.setWords(Arrays.asList("Wall", "Dog", "Green", "Smart", "Jump", "Pick"));
-        mapping.setId("qwe1");
+        mapping.setId(QWE_1);
         store.put(mapping.getId(), mapping);
     }
 

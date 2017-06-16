@@ -11,15 +11,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
-import org.talkapp.model.GrammarCheckResult;
+import org.talkapp.model.AnswerCheckingResult;
 import org.talkapp.model.GrammarError;
 import org.talkapp.model.UncheckedAnswer;
 
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.talkapp.controller.UncheckedAnswerController.CHECK_METHOD;
-import static org.talkapp.controller.UncheckedAnswerController.CONTROLLER_PATH;
+import static org.talkapp.controller.RefereeController.CHECK_METHOD;
+import static org.talkapp.controller.RefereeController.CONTROLLER_PATH;
+import static org.talkapp.repository.impl.WordSetRepositoryImpl.QWE_0;
 
 /**
  * @author Budnikau Aliaksandr
@@ -34,7 +35,7 @@ import static org.talkapp.controller.UncheckedAnswerController.CONTROLLER_PATH;
                 "core.srv.elasticsearch.port=9300",
         }
 )
-public class UncheckedAnswerControllerTest {
+public class RefereeControllerTest {
 
     @LocalServerPort
     private int port;
@@ -52,8 +53,9 @@ public class UncheckedAnswerControllerTest {
     private void testHelloWorld() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setText("Hello worlad");
-        ResponseEntity<GrammarCheckResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, GrammarCheckResult.class);
+        request.setWordSetId(QWE_0);
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
@@ -64,13 +66,15 @@ public class UncheckedAnswerControllerTest {
         then(errors.get(0).getOffset()).isEqualTo(6);
         then(errors.get(0).getSuggestions()).contains("world");
         then(errors.get(0).getMessage()).isNotEmpty();
+        then(entity.getBody().getCurrentTrainingExperience()).isEqualTo(0);
     }
 
     private void testIAmAnEngineer() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setText("I is a enginear");
-        ResponseEntity<GrammarCheckResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, GrammarCheckResult.class);
+        request.setWordSetId(QWE_0);
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
@@ -94,27 +98,33 @@ public class UncheckedAnswerControllerTest {
         then(errors.get(2).getOffset()).isEqualTo(7);
         then(errors.get(2).getSuggestions()).contains("engineer");
         then(errors.get(2).getMessage()).isNotEmpty();
+
+        then(entity.getBody().getCurrentTrainingExperience()).isEqualTo(0);
     }
 
     private void testWhoIsDutyToday() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setText("Who is duty today?");
-        ResponseEntity<GrammarCheckResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, GrammarCheckResult.class);
+        request.setWordSetId(QWE_0);
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
         then(errors).isEmpty();
+        then(entity.getBody().getCurrentTrainingExperience()).isEqualTo(1);
     }
 
     private void testWhoAreDutyToday() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setText("Who are duty today?");
-        ResponseEntity<GrammarCheckResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, GrammarCheckResult.class);
+        request.setWordSetId(QWE_0);
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
         then(errors).isEmpty();
+        then(entity.getBody().getCurrentTrainingExperience()).isEqualTo(2);
     }
 }

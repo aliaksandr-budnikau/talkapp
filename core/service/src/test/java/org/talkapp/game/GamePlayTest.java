@@ -13,14 +13,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
 import org.talkapp.controller.SentenceController;
 import org.talkapp.controller.WordSetController;
-import org.talkapp.model.GrammarCheckResult;
+import org.talkapp.model.AnswerCheckingResult;
 import org.talkapp.model.UncheckedAnswer;
 import org.talkapp.model.WordSet;
 
 import java.util.*;
 
-import static org.talkapp.controller.UncheckedAnswerController.CHECK_METHOD;
-import static org.talkapp.controller.UncheckedAnswerController.CONTROLLER_PATH;
+import static org.junit.Assert.fail;
+import static org.talkapp.controller.RefereeController.CHECK_METHOD;
+import static org.talkapp.controller.RefereeController.CONTROLLER_PATH;
+import static org.talkapp.repository.impl.WordSetRepositoryImpl.QWE_0;
 
 /**
  * @author Budnikau Aliaksandr
@@ -46,22 +48,33 @@ public class GamePlayTest {
     @Test
     public void test() {
         ResponseEntity<WordSet> wordSet = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + WordSetController.CONTROLLER_PATH + "/qwe0", WordSet.class);
+                "http://localhost:" + this.port + WordSetController.CONTROLLER_PATH + "/" + QWE_0, WordSet.class);
 
         List<String> list = wordSet.getBody().getWords();
         Set<String> pairs = choosePairs(list);
+        int expectedExperience = 0;
         for (String pair : pairs) {
             Map sentence = getSentence(pair);
 
             UncheckedAnswer request = new UncheckedAnswer();
             request.setText((String) sentence.get("text"));
-            ResponseEntity<GrammarCheckResult> entity = this.testRestTemplate.postForEntity(
-                    "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, GrammarCheckResult.class);
+            request.setWordSetId(QWE_0);
+            ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
+                    "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
 
             if (entity.getBody().getErrors().isEmpty()) {
-                System.out.println("OK");
+                expectedExperience++;
+                if (entity.getBody().getCurrentTrainingExperience() != expectedExperience) {
+                    fail();
+                    return;
+                }
+                System.out.println("ok");
+                if (entity.getBody().getCurrentTrainingExperience() == wordSet.getBody().getMaxTrainingExperience()) {
+                    System.out.println("OK");
+                }
             } else {
-                System.out.println("FAIL");
+                fail();
+                return;
             }
         }
     }
