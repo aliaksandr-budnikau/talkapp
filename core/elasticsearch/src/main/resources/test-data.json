@@ -22,7 +22,7 @@
   },
   {
     "_class": "org.talkapp.mapping.SentenceMapping",
-    "text": "The grey house was stayed.",
+    "text": "The gray house was stayed.",
     "translations": {
       "russian": "Серый дом остался."
     }

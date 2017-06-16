@@ -22,7 +22,7 @@
   },
   {
     "_class": "org.talkapp.mapping.SentenceMapping",
-    "text": "The grey house was stayed.",
+    "text": "The gray house was stayed.",
     "translations": {
       "russian": "Серый дом остался."
     }
@@ -57,28 +57,28 @@
   },
   {
     "_class": "org.talkapp.mapping.SentenceMapping",
-    "text": "The runner is grey.",
+    "text": "The runner is gray.",
     "translations": {
       "russian": "Бегун серый."
     }
   },
   {
     "_class": "org.talkapp.mapping.SentenceMapping",
-    "text": "I run to the grey house.",
+    "text": "I run to the gray house.",
     "translations": {
       "russian": "Я бегу в серый дом."
     }
   },
   {
     "_class": "org.talkapp.mapping.SentenceMapping",
-    "text": "Grey cats run.",
+    "text": "Gray cats run.",
     "translations": {
       "russian": "Серые кошки бегут."
     }
   },
   {
     "_class": "org.talkapp.mapping.SentenceMapping",
-    "text": "Grey or yellow?",
+    "text": "Gray or yellow?",
     "translations": {
       "russian": "Серый или желтый?"
     }
