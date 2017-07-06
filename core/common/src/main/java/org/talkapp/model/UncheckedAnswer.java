@@ -6,16 +6,9 @@ import java.util.Objects;
  * @author Budnikau Aliaksandr
  */
 public class UncheckedAnswer {
-    private String text;
     private String wordSetId;
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+    private String expectedAnswer;
+    private String actualAnswer;
 
     public String getWordSetId() {
         return wordSetId;
@@ -25,25 +18,43 @@ public class UncheckedAnswer {
         this.wordSetId = wordSetId;
     }
 
+    public String getExpectedAnswer() {
+        return expectedAnswer;
+    }
+
+    public void setExpectedAnswer(String expectedAnswer) {
+        this.expectedAnswer = expectedAnswer;
+    }
+
+    public String getActualAnswer() {
+        return actualAnswer;
+    }
+
+    public void setActualAnswer(String actualAnswer) {
+        this.actualAnswer = actualAnswer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UncheckedAnswer that = (UncheckedAnswer) o;
-        return Objects.equals(text, that.text) &&
-                Objects.equals(wordSetId, that.wordSetId);
+        return Objects.equals(wordSetId, that.wordSetId) &&
+                Objects.equals(expectedAnswer, that.expectedAnswer) &&
+                Objects.equals(actualAnswer, that.actualAnswer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, wordSetId);
+        return Objects.hash(wordSetId, expectedAnswer, actualAnswer);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UncheckedAnswer{");
-        sb.append("text='").append(text).append('\'');
-        sb.append(", wordSetId='").append(wordSetId).append('\'');
+        sb.append("wordSetId='").append(wordSetId).append('\'');
+        sb.append(", expectedAnswer='").append(expectedAnswer).append('\'');
+        sb.append(", actualAnswer='").append(actualAnswer).append('\'');
         sb.append('}');
         return sb.toString();
     }

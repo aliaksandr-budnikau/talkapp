@@ -52,7 +52,7 @@ public class RefereeControllerTest {
 
     private void testHelloWorld() {
         UncheckedAnswer request = new UncheckedAnswer();
-        request.setText("Hello worlad");
+        request.setActualAnswer("Hello worlad");
         request.setWordSetId(QWE_0);
         ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
                 "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
@@ -71,7 +71,7 @@ public class RefereeControllerTest {
 
     private void testIAmAnEngineer() {
         UncheckedAnswer request = new UncheckedAnswer();
-        request.setText("I is a enginear");
+        request.setActualAnswer("I is a enginear");
         request.setWordSetId(QWE_0);
         ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
                 "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
@@ -104,7 +104,7 @@ public class RefereeControllerTest {
 
     private void testWhoIsDutyToday() {
         UncheckedAnswer request = new UncheckedAnswer();
-        request.setText("Who is duty today?");
+        request.setActualAnswer("Who is duty today?");
         request.setWordSetId(QWE_0);
         ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
                 "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
@@ -117,7 +117,7 @@ public class RefereeControllerTest {
 
     private void testWhoAreDutyToday() {
         UncheckedAnswer request = new UncheckedAnswer();
-        request.setText("Who are duty today?");
+        request.setActualAnswer("Who are duty today?");
         request.setWordSetId(QWE_0);
         ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
                 "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);

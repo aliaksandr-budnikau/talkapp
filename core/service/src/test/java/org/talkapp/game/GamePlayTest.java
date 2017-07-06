@@ -57,7 +57,7 @@ public class GamePlayTest {
             Map sentence = getSentence(pair);
 
             UncheckedAnswer request = new UncheckedAnswer();
-            request.setText((String) sentence.get("text"));
+            request.setActualAnswer((String) sentence.get("text"));
             request.setWordSetId(QWE_0);
             ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
                     "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);

@@ -18,7 +18,7 @@ public class RefereeServiceImpl implements RefereeService {
 
     @Override
     public AnswerCheckingResult checkAnswer(UncheckedAnswer answer) {
-        AnswerCheckingResult result = grammarCheckService.check(answer.getText());
+        AnswerCheckingResult result = grammarCheckService.check(answer.getActualAnswer());
         if (result.getErrors().isEmpty()) {
             String id = answer.getWordSetId();
             WordSet wordSet = wordSetService.findById(id);
