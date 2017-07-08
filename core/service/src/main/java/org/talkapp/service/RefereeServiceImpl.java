@@ -15,11 +15,16 @@ public class RefereeServiceImpl implements RefereeService {
     private GrammarCheckService grammarCheckService;
     @Autowired
     private WordSetService wordSetService;
+    @Autowired
+    private EqualityScorer equalityScorer;
 
     @Override
     public AnswerCheckingResult checkAnswer(UncheckedAnswer answer) {
         AnswerCheckingResult result = grammarCheckService.check(answer.getActualAnswer());
         if (result.getErrors().isEmpty()) {
+            if (equalityScorer.score(answer.getExpectedAnswer(), answer.getActualAnswer()) < 80) {
+                return result;
+            }
             String id = answer.getWordSetId();
             WordSet wordSet = wordSetService.findById(id);
             int experience = wordSet.getTrainingExperience() + 1;
