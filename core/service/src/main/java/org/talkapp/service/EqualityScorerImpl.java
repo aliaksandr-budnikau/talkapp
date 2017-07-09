@@ -26,9 +26,15 @@ public class EqualityScorerImpl implements EqualityScorer {
         Set<String> actualWords = toSet(actual);
 
         int result = 0;
+        int unit;
+        if (expectedWords.size() >= actualWords.size()) {
+            unit = 100 / expectedWords.size();
+        } else {
+            unit = 100 / (expectedWords.size() + Math.abs(actualWords.size() - expectedWords.size()));
+        }
         for (String word : expectedWords) {
             if (actualWords.remove(word)) {
-                result += 100 / expectedWords.size();
+                result += unit;
             }
         }
 
@@ -36,7 +42,7 @@ public class EqualityScorerImpl implements EqualityScorer {
     }
 
     @NotNull
-    private HashSet<String> toSet(String expected) {
-        return new HashSet<>(Arrays.asList(expected.replaceAll(REGEX, REPLACEMENT).split(REPLACEMENT)));
+    private HashSet<String> toSet(String sentence) {
+        return new HashSet<>(Arrays.asList(sentence.toLowerCase().replaceAll(REGEX, REPLACEMENT).split(REPLACEMENT)));
     }
 }

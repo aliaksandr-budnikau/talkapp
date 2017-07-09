@@ -34,4 +34,10 @@ public class EqualityScorerImplTest {
         int score = scorer.score("Who is on duty today?", "Who is on duty tomorrow?");
         assertEquals(80, score);
     }
+
+    @Test
+    public void score_104() {
+        int score = scorer.score("Gray cats run.", "The gray cats run");
+        assertEquals(75, score);
+    }
 }
