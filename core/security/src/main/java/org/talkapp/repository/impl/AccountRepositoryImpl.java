@@ -22,20 +22,20 @@ public class AccountRepositoryImpl implements AccountRepository {
         AccountMapping mapping = new AccountMapping();
         mapping.setId(QWE_0);
         mapping.setPassword("password0");
-        mapping.setUsername("username0");
+        mapping.setEmail("sasha-ne@tut.by");
         store.put(mapping.getId(), mapping);
 
         mapping = new AccountMapping();
         mapping.setId(QWE_1);
         mapping.setPassword("password1");
-        mapping.setUsername("username1");
+        mapping.setEmail("ne-sasha@tut.by");
         store.put(mapping.getId(), mapping);
     }
 
     @Override
-    public AccountMapping findByUsername(String username) {
+    public AccountMapping findByEmail(String email) {
         for (Map.Entry<String, AccountMapping> entry : store.entrySet()) {
-            if (entry.getValue().getUsername().equals(username)) {
+            if (entry.getValue().getEmail().equals(email)) {
                 return entry.getValue();
             }
         }

@@ -7,5 +7,5 @@ import org.talkapp.mapping.AccountMapping;
  */
 public interface AccountRepository {
 
-    AccountMapping findByUsername(String username);
+    AccountMapping findByEmail(String email);
 }

@@ -31,14 +31,14 @@ public class GlobalAuthenticationConfigurer extends GlobalAuthenticationConfigur
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                AccountMapping account = accountRepository.findByUsername(username);
+            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+                AccountMapping account = accountRepository.findByEmail(email);
                 if (account != null) {
-                    return new User(account.getUsername(), account.getPassword(), true, true, true, true,
+                    return new User(account.getEmail(), account.getPassword(), true, true, true, true,
                             AuthorityUtils.createAuthorityList("USER"));
                 } else {
                     throw new UsernameNotFoundException("could not find the user '"
-                            + username + "'");
+                            + email + "'");
                 }
             }
         };
