@@ -12,6 +12,7 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
+        maven { url "https://maven-eu.nuxeo.org/nexus/content/repositories/public-releases/" }
     }
 
     dependencies {
