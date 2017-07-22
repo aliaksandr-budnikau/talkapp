@@ -1,5 +1,4 @@
 dependencies {
     compile project(':core:common')
     compile 'com.google.cloud:google-cloud-speech:0.8.0'
-    compile('org.springframework:spring-context:4.3.8.RELEASE')
 }

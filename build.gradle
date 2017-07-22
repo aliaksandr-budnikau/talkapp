@@ -3,18 +3,20 @@ subprojects {
         springBootVersion = '1.5.4.RELEASE'
     }
     apply plugin: 'java'
-
-    version '0.1'
-
     apply plugin: 'idea'
     apply plugin: 'eclipse'
 
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
     repositories {
+        mavenCentral()
         jcenter()
     }
 
     dependencies {
         testCompile 'junit:junit:4.12'
         compile 'org.slf4j:slf4j-api:1.7.25'
+        compile 'org.springframework:spring-context:4.3.8.RELEASE'
     }
 }
