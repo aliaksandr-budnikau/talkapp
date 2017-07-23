@@ -9,14 +9,6 @@ public class AccountMapping {
     private String email;
     private String password;
 
-    public AccountMapping() {
-    }
-
-    public AccountMapping(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
     public String getId() {
         return id;
     }
