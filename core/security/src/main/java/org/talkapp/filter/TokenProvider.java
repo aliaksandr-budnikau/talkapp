@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.talkapp.model.LoginCredentials;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+
+import static java.util.Collections.emptyList;
 
 /**
  * @author Budnikau Aliaksandr
@@ -39,10 +40,7 @@ public class TokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-
-        LoginCredentials principal = new LoginCredentials();
-        principal.setEmail(claims.getSubject());
-        return new UsernamePasswordAuthenticationToken(principal, "");
+        return new UsernamePasswordAuthenticationToken(claims.getSubject(), null, emptyList());
     }
 
     public boolean validateToken(String authToken) {
