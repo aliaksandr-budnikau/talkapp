@@ -15,6 +15,7 @@ dependencies {
     compile project(':core:common')
     compile project(':core:elasticsearch')
     compile project(':core:security')
+    compile project(':core:repository')
 
     runtime('org.postgresql:postgresql')
 
