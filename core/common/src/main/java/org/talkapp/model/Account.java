@@ -1,11 +1,11 @@
-package org.talkapp.mapping;
+package org.talkapp.model;
 
 import java.util.Objects;
 
 /**
  * @author Budnikau Aliaksandr
  */
-public class AccountMapping {
+public class Account {
 
     private String id;
     private String email;
@@ -39,10 +39,10 @@ public class AccountMapping {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountMapping that = (AccountMapping) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(password, that.password);
+        Account account = (Account) o;
+        return Objects.equals(id, account.id) &&
+                Objects.equals(email, account.email) &&
+                Objects.equals(password, account.password);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AccountMapping {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("AccountMapping{");
+        final StringBuilder sb = new StringBuilder("Account{");
         sb.append("id='").append(id).append('\'');
         sb.append(", email='").append(email).append('\'');
         sb.append(", password='").append(password).append('\'');

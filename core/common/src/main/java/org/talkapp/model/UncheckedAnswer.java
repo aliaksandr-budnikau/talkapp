@@ -6,16 +6,16 @@ import java.util.Objects;
  * @author Budnikau Aliaksandr
  */
 public class UncheckedAnswer {
-    private String wordSetId;
+    private String wordSetExperienceId;
     private String expectedAnswer;
     private String actualAnswer;
 
-    public String getWordSetId() {
-        return wordSetId;
+    public String getWordSetExperienceId() {
+        return wordSetExperienceId;
     }
 
-    public void setWordSetId(String wordSetId) {
-        this.wordSetId = wordSetId;
+    public void setWordSetExperienceId(String wordSetExperienceId) {
+        this.wordSetExperienceId = wordSetExperienceId;
     }
 
     public String getExpectedAnswer() {
@@ -39,20 +39,20 @@ public class UncheckedAnswer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UncheckedAnswer that = (UncheckedAnswer) o;
-        return Objects.equals(wordSetId, that.wordSetId) &&
+        return Objects.equals(wordSetExperienceId, that.wordSetExperienceId) &&
                 Objects.equals(expectedAnswer, that.expectedAnswer) &&
                 Objects.equals(actualAnswer, that.actualAnswer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(wordSetId, expectedAnswer, actualAnswer);
+        return Objects.hash(wordSetExperienceId, expectedAnswer, actualAnswer);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UncheckedAnswer{");
-        sb.append("wordSetId='").append(wordSetId).append('\'');
+        sb.append("wordSetExperienceId='").append(wordSetExperienceId).append('\'');
         sb.append(", expectedAnswer='").append(expectedAnswer).append('\'');
         sb.append(", actualAnswer='").append(actualAnswer).append('\'');
         sb.append('}');

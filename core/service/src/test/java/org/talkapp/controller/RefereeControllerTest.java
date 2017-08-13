@@ -1,23 +1,25 @@
 package org.talkapp.controller;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
 import org.talkapp.model.AnswerCheckingResult;
 import org.talkapp.model.GrammarError;
+import org.talkapp.model.LoginCredentials;
 import org.talkapp.model.UncheckedAnswer;
 
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.talkapp.config.WebSecurityConfigurer.AUTHORIZATION_HEADER;
 import static org.talkapp.controller.RefereeController.CHECK_METHOD;
 import static org.talkapp.controller.RefereeController.CONTROLLER_PATH;
 import static org.talkapp.repository.impl.WordSetRepositoryImpl.QWE_0;
@@ -42,6 +44,23 @@ public class RefereeControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    private HttpHeaders headers;
+
+    @Before
+    public void init() {
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setEmail("sasha-ne@tut.by");
+        loginCredentials.setPassword("password0");
+
+        ResponseEntity<Boolean> login = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + LoginController.CONTROLLER_PATH, loginCredentials, Boolean.class);
+
+        List<String> sign = login.getHeaders().get(AUTHORIZATION_HEADER);
+
+        headers = new HttpHeaders();
+        headers.put(AUTHORIZATION_HEADER, sign);
+    }
+
     @Test
     public void checkUncheckedAnswer() {
         testHelloWorld();
@@ -53,9 +72,10 @@ public class RefereeControllerTest {
     private void testHelloWorld() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setActualAnswer("Hello worlad");
-        request.setWordSetId(QWE_0);
-        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
+        request.setExpectedAnswer("Hello world");
+        request.setWordSetExperienceId(QWE_0);
+
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, HttpMethod.POST, new HttpEntity<>(request, headers), AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
@@ -72,9 +92,10 @@ public class RefereeControllerTest {
     private void testIAmAnEngineer() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setActualAnswer("I is a enginear");
-        request.setWordSetId(QWE_0);
-        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
+        request.setExpectedAnswer("I is a engineer");
+        request.setWordSetExperienceId(QWE_0);
+
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, HttpMethod.POST, new HttpEntity<>(request, headers), AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
@@ -105,9 +126,10 @@ public class RefereeControllerTest {
     private void testWhoIsDutyToday() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setActualAnswer("Who is duty today?");
-        request.setWordSetId(QWE_0);
-        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
+        request.setExpectedAnswer("Who is duty today?");
+        request.setWordSetExperienceId(QWE_0);
+
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, HttpMethod.POST, new HttpEntity<>(request, headers), AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();
@@ -118,9 +140,10 @@ public class RefereeControllerTest {
     private void testWhoAreDutyToday() {
         UncheckedAnswer request = new UncheckedAnswer();
         request.setActualAnswer("Who are duty today?");
-        request.setWordSetId(QWE_0);
-        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
+        request.setExpectedAnswer("Who are duty today?");
+        request.setWordSetExperienceId(QWE_0);
+
+        ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, HttpMethod.POST, new HttpEntity<>(request, headers), AnswerCheckingResult.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<GrammarError> errors = entity.getBody().getErrors();

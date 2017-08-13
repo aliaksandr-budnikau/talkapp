@@ -11,10 +11,6 @@ public class WordSetMapping {
 
     private List<String> words;
 
-    private int trainingExperience;
-
-    private int maxTrainingExperience;
-
     public String getId() {
         return id;
     }
@@ -31,36 +27,18 @@ public class WordSetMapping {
         this.words = words;
     }
 
-    public int getTrainingExperience() {
-        return trainingExperience;
-    }
-
-    public void setTrainingExperience(int trainingExperience) {
-        this.trainingExperience = trainingExperience;
-    }
-
-    public int getMaxTrainingExperience() {
-        return maxTrainingExperience;
-    }
-
-    public void setMaxTrainingExperience(int maxTrainingExperience) {
-        this.maxTrainingExperience = maxTrainingExperience;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WordSetMapping that = (WordSetMapping) o;
-        return trainingExperience == that.trainingExperience &&
-                maxTrainingExperience == that.maxTrainingExperience &&
-                Objects.equals(id, that.id) &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(words, that.words);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, words, trainingExperience, maxTrainingExperience);
+        return Objects.hash(id, words);
     }
 
     @Override
@@ -68,8 +46,6 @@ public class WordSetMapping {
         final StringBuilder sb = new StringBuilder("WordSetMapping{");
         sb.append("id='").append(id).append('\'');
         sb.append(", words=").append(words);
-        sb.append(", trainingExperience=").append(trainingExperience);
-        sb.append(", maxTrainingExperience=").append(maxTrainingExperience);
         sb.append('}');
         return sb.toString();
     }

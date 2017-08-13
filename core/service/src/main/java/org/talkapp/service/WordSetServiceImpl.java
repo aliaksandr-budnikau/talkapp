@@ -40,8 +40,6 @@ public class WordSetServiceImpl implements WordSetService {
         WordSetMapping mapping = new WordSetMapping();
         mapping.setId(wordSet.getId());
         mapping.setWords(wordSet.getWords());
-        mapping.setTrainingExperience(wordSet.getTrainingExperience());
-        mapping.setMaxTrainingExperience(wordSet.getMaxTrainingExperience());
         return mapping;
     }
 
@@ -49,8 +47,6 @@ public class WordSetServiceImpl implements WordSetService {
         WordSet wordSet = new WordSet();
         wordSet.setId(mapping.getId());
         wordSet.setWords(mapping.getWords());
-        wordSet.setTrainingExperience(mapping.getTrainingExperience());
-        wordSet.setMaxTrainingExperience(mapping.getMaxTrainingExperience());
         return wordSet;
     }
 }

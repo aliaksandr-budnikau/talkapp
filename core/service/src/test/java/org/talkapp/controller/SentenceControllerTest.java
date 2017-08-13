@@ -1,17 +1,18 @@
 package org.talkapp.controller;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
+import org.talkapp.model.LoginCredentials;
 import org.talkapp.model.Sentence;
 
 import java.util.Collections;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.talkapp.config.WebSecurityConfigurer.AUTHORIZATION_HEADER;
 import static org.talkapp.controller.SentenceController.CONTROLLER_PATH;
 
 /**
@@ -52,6 +54,23 @@ public class SentenceControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    private HttpHeaders headers;
+
+    @Before
+    public void init() {
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setEmail("sasha-ne@tut.by");
+        loginCredentials.setPassword("password0");
+
+        ResponseEntity<Boolean> login = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + LoginController.CONTROLLER_PATH, loginCredentials, Boolean.class);
+
+        List<String> sign = login.getHeaders().get(AUTHORIZATION_HEADER);
+
+        headers = new HttpHeaders();
+        headers.put(AUTHORIZATION_HEADER, sign);
+    }
+
     @Test
     public void testStorageOfSentences() throws Exception {
         testFindAll();
@@ -66,10 +85,9 @@ public class SentenceControllerTest {
     }
 
     private void testDelete() {
-        this.testRestTemplate.delete("http://localhost:" + this.port + CONTROLLER_PATH);
+        this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH, HttpMethod.DELETE, new HttpEntity<>(headers), Void.class);
 
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH, Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH, HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -78,17 +96,17 @@ public class SentenceControllerTest {
 
     @After
     public void destroy() {
-        this.testRestTemplate.delete("http://localhost:" + this.port + CONTROLLER_PATH);
+        this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH, HttpMethod.DELETE, new HttpEntity<>(headers), Void.class);
     }
 
     private void testSave() {
         Sentence sentence = new Sentence();
         sentence.setText(SENTENCE_5);
         sentence.getTranslations().put(RUSSIAN, SENTENCE_RU_5);
-        this.testRestTemplate.postForEntity("http://localhost:" + this.port + CONTROLLER_PATH, sentence, Void.class);
 
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=ta tra", Object.class);
+        this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH, HttpMethod.POST, new HttpEntity<>(sentence, headers), Void.class);
+
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + "?words=ta tra", HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -99,8 +117,7 @@ public class SentenceControllerTest {
     }
 
     private void testFindAll() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH, Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH, HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -124,8 +141,7 @@ public class SentenceControllerTest {
     }
 
     private void testFindByStay() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stay", Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stay", HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -141,8 +157,7 @@ public class SentenceControllerTest {
     }
 
     private void testFindByStayed() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stayed", Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stayed", HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -158,8 +173,7 @@ public class SentenceControllerTest {
     }
 
     private void testFindByTomorrowAndDuty() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=tomorrow duty", Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + "?words=tomorrow duty", HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -170,8 +184,7 @@ public class SentenceControllerTest {
     }
 
     private void testFindByTomorrowAndDutyAndWho() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=tomorrow are duty", Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + "?words=tomorrow are duty", HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -179,8 +192,9 @@ public class SentenceControllerTest {
     }
 
     private void testFindByStayedAndTwo() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stayed Two", Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange(
+                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=Stayed Two",
+                HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();
@@ -188,8 +202,9 @@ public class SentenceControllerTest {
     }
 
     private void testFindByTodayAndDuty() {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=today duty", Object.class);
+        ResponseEntity<Object> entity = this.testRestTemplate.exchange(
+                "http://localhost:" + this.port + CONTROLLER_PATH + "?words=today duty",
+                HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
         then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Map> body = (List<Map>) entity.getBody();

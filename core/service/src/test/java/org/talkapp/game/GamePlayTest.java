@@ -1,25 +1,31 @@
 package org.talkapp.game;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.talkapp.TalkappCoreApplication;
+import org.talkapp.controller.LoginController;
 import org.talkapp.controller.SentenceController;
 import org.talkapp.controller.WordSetController;
-import org.talkapp.model.AnswerCheckingResult;
-import org.talkapp.model.UncheckedAnswer;
-import org.talkapp.model.WordSet;
+import org.talkapp.controller.WordSetExperienceController;
+import org.talkapp.model.*;
 
 import java.util.*;
 
 import static org.junit.Assert.fail;
+import static org.talkapp.config.WebSecurityConfigurer.AUTHORIZATION_HEADER;
 import static org.talkapp.controller.RefereeController.CHECK_METHOD;
 import static org.talkapp.controller.RefereeController.CONTROLLER_PATH;
 import static org.talkapp.repository.impl.WordSetRepositoryImpl.QWE_0;
@@ -44,23 +50,40 @@ public class GamePlayTest {
     private int port;
     @Autowired
     private TestRestTemplate testRestTemplate;
+    private HttpHeaders headers;
+
+    @Before
+    public void init() {
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setEmail("sasha-ne@tut.by");
+        loginCredentials.setPassword("password0");
+        ResponseEntity<Boolean> login = this.testRestTemplate.postForEntity(
+                "http://localhost:" + this.port + LoginController.CONTROLLER_PATH, loginCredentials, Boolean.class);
+
+        List<String> sign = login.getHeaders().get(AUTHORIZATION_HEADER);
+
+        headers = new HttpHeaders();
+        headers.put(AUTHORIZATION_HEADER, sign);
+    }
 
     @Test
     public void test() {
-        ResponseEntity<WordSet> wordSet = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + WordSetController.CONTROLLER_PATH + "/" + QWE_0, WordSet.class);
+        ResponseEntity<WordSet> wordSet = this.testRestTemplate.exchange("http://localhost:" + this.port + WordSetController.CONTROLLER_PATH + "/" + QWE_0, HttpMethod.GET, new HttpEntity<>(headers), WordSet.class);
+
+        ResponseEntity<WordSetExperience> exp = this.testRestTemplate.exchange("http://localhost:" + this.port + WordSetExperienceController.CONTROLLER_PATH + "/" + QWE_0, HttpMethod.GET, new HttpEntity<>(headers), WordSetExperience.class);
 
         List<String> list = wordSet.getBody().getWords();
         Set<String> pairs = choosePairs(list);
         int expectedExperience = 0;
         for (String pair : pairs) {
-            Map sentence = getSentence(pair);
+            Map<String, String> sentence = getSentence(pair);
 
             UncheckedAnswer request = new UncheckedAnswer();
-            request.setActualAnswer((String) sentence.get("text"));
-            request.setWordSetId(QWE_0);
-            ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.postForEntity(
-                    "http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, request, AnswerCheckingResult.class);
+            request.setActualAnswer(sentence.get("text"));
+            request.setExpectedAnswer(sentence.get("text"));
+            request.setWordSetExperienceId(exp.getBody().getId());
+
+            ResponseEntity<AnswerCheckingResult> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + CONTROLLER_PATH + CHECK_METHOD, HttpMethod.POST, new HttpEntity<>(request, headers), AnswerCheckingResult.class);
 
             if (entity.getBody().getErrors().isEmpty()) {
                 expectedExperience++;
@@ -69,7 +92,7 @@ public class GamePlayTest {
                     return;
                 }
                 System.out.println("ok");
-                if (entity.getBody().getCurrentTrainingExperience() == wordSet.getBody().getMaxTrainingExperience()) {
+                if (entity.getBody().getCurrentTrainingExperience() == exp.getBody().getMaxTrainingExperience()) {
                     System.out.println("OK");
                 }
             } else {
@@ -79,16 +102,20 @@ public class GamePlayTest {
         }
     }
 
-    private Map getSentence(String pair) {
-        ResponseEntity<Object> entity = this.testRestTemplate.getForEntity(
-                "http://localhost:" + this.port + SentenceController.CONTROLLER_PATH + "?words=" + pair, Object.class);
+    private Map<String, String> getSentence(String pair) {
+        ResponseEntity<List> entity = this.testRestTemplate.exchange("http://localhost:" + this.port + SentenceController.CONTROLLER_PATH + "?words=" + pair, HttpMethod.GET, new HttpEntity<>(headers), List.class);
 
-        List<Map> sentences = (List<Map>) entity.getBody();
+        List<Map<String, String>> sentences = (List<Map<String, String>>) entity.getBody();
         if (sentences.size() < 2) {
             return sentences.get(0);
         }
         int i = new Random().nextInt(sentences.size() - 1);
         return sentences.get(i);
+    }
+
+    @After
+    public void destroy() {
+        this.testRestTemplate.exchange("http://localhost:" + this.port + SentenceController.CONTROLLER_PATH, HttpMethod.DELETE, new HttpEntity<>(headers), Void.class);
     }
 
     @NotNull

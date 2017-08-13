@@ -19,15 +19,11 @@ public class WordSetRepositoryImpl implements WordSetRepository {
     @PostConstruct
     public void init() {
         WordSetMapping mapping = new WordSetMapping();
-        mapping.setTrainingExperience(0);
-        mapping.setMaxTrainingExperience(4);
         mapping.setWords(Arrays.asList("House", "Cat", "Yellow", "Gray", "Run", "Stay"));
         mapping.setId(QWE_0);
         store.put(mapping.getId(), mapping);
 
         mapping = new WordSetMapping();
-        mapping.setTrainingExperience(1);
-        mapping.setMaxTrainingExperience(4);
         mapping.setWords(Arrays.asList("Wall", "Dog", "Green", "Smart", "Jump", "Pick"));
         mapping.setId(QWE_1);
         store.put(mapping.getId(), mapping);
