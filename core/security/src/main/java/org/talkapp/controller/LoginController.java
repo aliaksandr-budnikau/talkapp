@@ -14,6 +14,6 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String findAll() {
-        return "OK";
+        return String.valueOf(true);
     }
 }
