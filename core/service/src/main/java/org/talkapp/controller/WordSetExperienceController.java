@@ -2,7 +2,9 @@ package org.talkapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.talkapp.model.Account;
 import org.talkapp.model.WordSetExperience;
+import org.talkapp.service.AccountService;
 import org.talkapp.service.WordSetExperienceService;
 
 import java.util.List;
@@ -17,10 +19,13 @@ public class WordSetExperienceController {
 
     @Autowired
     private WordSetExperienceService wordSetExperienceService;
+    @Autowired
+    private AccountService accountService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<WordSetExperience> findAll() {
-        return wordSetExperienceService.findAll();
+        Account current = accountService.getCurrent();
+        return wordSetExperienceService.findAllByAccountId(current.getId());
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)

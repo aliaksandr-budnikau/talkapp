@@ -9,7 +9,6 @@ public class Account {
 
     private String id;
     private String email;
-    private String password;
 
     public String getId() {
         return id;
@@ -27,27 +26,18 @@ public class Account {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
         return Objects.equals(id, account.id) &&
-                Objects.equals(email, account.email) &&
-                Objects.equals(password, account.password);
+                Objects.equals(email, account.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password);
+        return Objects.hash(id, email);
     }
 
     @Override
@@ -55,7 +45,6 @@ public class Account {
         final StringBuilder sb = new StringBuilder("Account{");
         sb.append("id='").append(id).append('\'');
         sb.append(", email='").append(email).append('\'');
-        sb.append(", password='").append(password).append('\'');
         sb.append('}');
         return sb.toString();
     }

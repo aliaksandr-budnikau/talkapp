@@ -14,4 +14,6 @@ public interface WordSetExperienceRepository {
     List<WordSetExperienceMapping> findAll();
 
     WordSetExperienceMapping findById(String id);
+
+    List<WordSetExperienceMapping> findAllByAccountId(String accountId);
 }

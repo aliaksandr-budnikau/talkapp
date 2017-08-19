@@ -13,4 +13,6 @@ public interface WordSetExperienceService {
     List<WordSetExperience> findAll();
 
     WordSetExperience findById(String id);
+
+    List<WordSetExperience> findAllByAccountId(String accountId);
 }

@@ -27,7 +27,6 @@ public class AccountServiceImpl implements AccountService {
     private Account toDto(AccountMapping mapping) {
         Account account = new Account();
         account.setId(mapping.getId());
-        account.setPassword(mapping.getPassword());
         account.setEmail(mapping.getEmail());
         return account;
     }

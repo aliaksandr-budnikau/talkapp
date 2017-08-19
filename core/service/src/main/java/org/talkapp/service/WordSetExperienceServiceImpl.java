@@ -32,6 +32,15 @@ public class WordSetExperienceServiceImpl implements WordSetExperienceService {
     }
 
     @Override
+    public List<WordSetExperience> findAllByAccountId(String accountId) {
+        List<WordSetExperience> result = new LinkedList<>();
+        for (WordSetExperienceMapping mapping : wordSetExperienceRepository.findAllByAccountId(accountId)) {
+            result.add(toDto(mapping));
+        }
+        return result;
+    }
+
+    @Override
     public WordSetExperience findById(String id) {
         return toDto(wordSetExperienceRepository.findById(id));
     }

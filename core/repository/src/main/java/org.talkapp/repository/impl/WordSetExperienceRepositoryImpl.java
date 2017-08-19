@@ -67,6 +67,17 @@ public class WordSetExperienceRepositoryImpl implements WordSetExperienceReposit
     }
 
     @Override
+    public List<WordSetExperienceMapping> findAllByAccountId(String accountId) {
+        ArrayList<WordSetExperienceMapping> result = new ArrayList<>();
+        for (WordSetExperienceMapping mapping : store.values()) {
+            if (accountId.equals(mapping.getAccountId())) {
+                result.add(mapping);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public WordSetExperienceMapping findById(String id) {
         return store.get(id);
     }
